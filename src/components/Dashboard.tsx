@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Hexagon, TrendingUp, Activity, Droplet } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Hive {
   id: string;
@@ -43,6 +44,7 @@ const mockHives: Hive[] = [
 ];
 
 const Dashboard = () => {
+  const { t } = useLanguage();
   const totalHives = mockHives.length;
   const healthyHives = mockHives.filter(h => h.status === "healthy").length;
   const avgProduction = Math.round(
@@ -69,9 +71,9 @@ const Dashboard = () => {
         <div>
           <h1 className="text-3xl md:text-4xl font-bold flex items-center gap-3">
             <Hexagon className="h-8 w-8 fill-primary text-primary animate-pulse-soft" />
-            BeeTrack
+            {t.dashboard.title}
           </h1>
-          <p className="text-muted-foreground mt-1">Manage your hives with care</p>
+          <p className="text-muted-foreground mt-1">{t.dashboard.subtitle}</p>
         </div>
       </div>
 
@@ -79,39 +81,39 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <Card className="shadow-card hover:shadow-hover transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Hives</CardTitle>
+            <CardTitle className="text-sm font-medium">{t.dashboard.totalHives}</CardTitle>
             <Hexagon className="h-5 w-5 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{totalHives}</div>
             <p className="text-xs text-muted-foreground mt-1">
-              {healthyHives} healthy
+              {healthyHives} {t.dashboard.healthy}
             </p>
           </CardContent>
         </Card>
 
         <Card className="shadow-card hover:shadow-hover transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Avg Production</CardTitle>
+            <CardTitle className="text-sm font-medium">{t.dashboard.avgProduction}</CardTitle>
             <TrendingUp className="h-5 w-5 text-accent" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{avgProduction}%</div>
             <p className="text-xs text-muted-foreground mt-1">
-              Above target
+              {t.dashboard.aboveTarget}
             </p>
           </CardContent>
         </Card>
 
         <Card className="shadow-card hover:shadow-hover transition-all duration-300 sm:col-span-2 lg:col-span-1">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Active Queens</CardTitle>
+            <CardTitle className="text-sm font-medium">{t.dashboard.activeQueens}</CardTitle>
             <Activity className="h-5 w-5 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{totalHives}</div>
             <p className="text-xs text-muted-foreground mt-1">
-              All queens active
+              {t.dashboard.allQueensActive}
             </p>
           </CardContent>
         </Card>
@@ -119,7 +121,7 @@ const Dashboard = () => {
 
       {/* Hives List */}
       <div>
-        <h2 className="text-2xl font-semibold mb-4">Your Hives</h2>
+        <h2 className="text-2xl font-semibold mb-4">{t.dashboard.yourHives}</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {mockHives.map((hive) => (
             <Card
@@ -138,24 +140,24 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <Badge className={getStatusColor(hive.status)}>
-                    {hive.status}
+                    {t.dashboard.status[hive.status as keyof typeof t.dashboard.status]}
                   </Badge>
                 </div>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Last Inspection:</span>
+                  <span className="text-muted-foreground">{t.dashboard.lastInspection}:</span>
                   <span className="font-medium">{hive.lastInspection}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Queen Status:</span>
+                  <span className="text-muted-foreground">{t.dashboard.queenStatus}:</span>
                   <span className="font-medium">{hive.queenStatus}</span>
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground flex items-center gap-1">
                       <Droplet className="h-4 w-4" />
-                      Honey Production:
+                      {t.dashboard.honeyProduction}:
                     </span>
                     <span className="font-medium">{hive.honeyProduction}%</span>
                   </div>

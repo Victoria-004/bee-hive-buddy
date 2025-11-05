@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Hexagon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Location {
   id: string;
@@ -34,12 +35,15 @@ const mockLocations: Location[] = [
   },
 ];
 
+
 const MapView = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="space-y-6 animate-slide-up pb-24 md:pb-6">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Apiary Locations</h1>
-        <p className="text-muted-foreground">View and manage your hive locations</p>
+        <h1 className="text-3xl font-bold mb-2">{t.map.title}</h1>
+        <p className="text-muted-foreground">{t.map.subtitle}</p>
       </div>
 
       {/* Map Placeholder - In production, integrate with actual map API */}
@@ -47,9 +51,9 @@ const MapView = () => {
         <div className="relative h-[400px] bg-gradient-to-br from-secondary to-muted honeycomb-pattern flex items-center justify-center">
           <div className="text-center space-y-3 bg-card/80 backdrop-blur-sm p-8 rounded-2xl shadow-soft">
             <MapPin className="h-16 w-16 text-primary mx-auto animate-float" />
-            <p className="text-lg font-semibold">Interactive Map</p>
+            <p className="text-lg font-semibold">{t.map.interactiveMap}</p>
             <p className="text-sm text-muted-foreground max-w-sm">
-              Map integration will show all your hive locations with GPS coordinates
+              {t.map.mapDescription}
             </p>
           </div>
         </div>
@@ -57,7 +61,7 @@ const MapView = () => {
 
       {/* Locations List */}
       <div className="space-y-4">
-        <h2 className="text-2xl font-semibold">Your Apiaries</h2>
+        <h2 className="text-2xl font-semibold">{t.map.yourApiaries}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {mockLocations.map((location) => (
             <Card
@@ -70,7 +74,7 @@ const MapView = () => {
                     <MapPin className="h-5 w-5 text-primary" />
                   </div>
                   <Badge variant={location.status === "active" ? "default" : "secondary"}>
-                    {location.status}
+                    {t.map.status[location.status as keyof typeof t.map.status]}
                   </Badge>
                 </div>
                 <CardTitle className="text-xl">{location.name}</CardTitle>
@@ -78,7 +82,9 @@ const MapView = () => {
               <CardContent className="space-y-2">
                 <div className="flex items-center gap-2 text-sm">
                   <Hexagon className="h-4 w-4 text-primary fill-primary" />
-                  <span className="font-medium">{location.hives} Hive{location.hives !== 1 ? 's' : ''}</span>
+                  <span className="font-medium">
+                    {location.hives} {location.hives === 1 ? t.map.hives : t.map.hivesPlural}
+                  </span>
                 </div>
                 <p className="text-xs text-muted-foreground">{location.coordinates}</p>
               </CardContent>

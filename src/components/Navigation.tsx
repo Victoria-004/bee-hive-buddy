@@ -1,5 +1,6 @@
 import { Home, Map, Plus, BookOpen, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface NavigationProps {
   activeTab: string;
@@ -7,12 +8,14 @@ interface NavigationProps {
 }
 
 const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
+  const { t } = useLanguage();
+  
   const navItems = [
-    { id: "dashboard", icon: Home, label: "Dashboard" },
-    { id: "map", icon: Map, label: "Map" },
-    { id: "add", icon: Plus, label: "Add Hive" },
-    { id: "notes", icon: BookOpen, label: "Notes" },
-    { id: "settings", icon: Settings, label: "Settings" },
+    { id: "dashboard", icon: Home, label: t.nav.dashboard },
+    { id: "map", icon: Map, label: t.nav.map },
+    { id: "add", icon: Plus, label: t.nav.addHive },
+    { id: "notes", icon: BookOpen, label: t.nav.notes },
+    { id: "settings", icon: Settings, label: t.nav.settings },
   ];
 
   return (

@@ -7,9 +7,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Hexagon, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
+
 
 const AddHive = () => {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     location: "",
@@ -23,8 +26,8 @@ const AddHive = () => {
     // Validate
     if (!formData.name || !formData.location) {
       toast({
-        title: "Missing Information",
-        description: "Please fill in all required fields.",
+        title: t.addHive.missingInfo,
+        description: t.addHive.fillRequired,
         variant: "destructive",
       });
       return;
@@ -32,8 +35,8 @@ const AddHive = () => {
 
     // In production, this would save to database
     toast({
-      title: "Hive Added Successfully!",
-      description: `${formData.name} has been added to your apiary.`,
+      title: t.addHive.success,
+      description: `${formData.name} ${t.addHive.addedToApiary}`,
     });
 
     // Reset form
@@ -52,8 +55,8 @@ const AddHive = () => {
           <Plus className="h-6 w-6 text-primary" />
         </div>
         <div>
-          <h1 className="text-3xl font-bold">Add New Hive</h1>
-          <p className="text-muted-foreground">Register a new hive to your apiary</p>
+          <h1 className="text-3xl font-bold">{t.addHive.title}</h1>
+          <p className="text-muted-foreground">{t.addHive.subtitle}</p>
         </div>
       </div>
 
@@ -61,18 +64,18 @@ const AddHive = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Hexagon className="h-5 w-5 fill-primary text-primary" />
-            Hive Details
+            {t.addHive.hiveDetails}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="name" className="text-base">
-                Hive Name *
+                {t.addHive.hiveName} {t.addHive.required}
               </Label>
               <Input
                 id="name"
-                placeholder="e.g., Hive Alpha"
+                placeholder={t.addHive.hiveNamePlaceholder}
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="h-12 text-base"
@@ -81,11 +84,11 @@ const AddHive = () => {
 
             <div className="space-y-2">
               <Label htmlFor="location" className="text-base">
-                Location *
+                {t.addHive.location} {t.addHive.required}
               </Label>
               <Input
                 id="location"
-                placeholder="e.g., North Field"
+                placeholder={t.addHive.locationPlaceholder}
                 value={formData.location}
                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                 className="h-12 text-base"
@@ -94,31 +97,31 @@ const AddHive = () => {
 
             <div className="space-y-2">
               <Label htmlFor="queenStatus" className="text-base">
-                Queen Status
+                {t.addHive.queenStatus}
               </Label>
               <Select
                 value={formData.queenStatus}
                 onValueChange={(value) => setFormData({ ...formData, queenStatus: value })}
               >
                 <SelectTrigger className="h-12 text-base">
-                  <SelectValue placeholder="Select queen status" />
+                  <SelectValue placeholder={t.addHive.selectQueenStatus} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="low-activity">Low Activity</SelectItem>
-                  <SelectItem value="needs-replacement">Needs Replacement</SelectItem>
-                  <SelectItem value="unknown">Unknown</SelectItem>
+                  <SelectItem value="active">{t.addHive.queenStatuses.active}</SelectItem>
+                  <SelectItem value="low-activity">{t.addHive.queenStatuses.lowActivity}</SelectItem>
+                  <SelectItem value="needs-replacement">{t.addHive.queenStatuses.needsReplacement}</SelectItem>
+                  <SelectItem value="unknown">{t.addHive.queenStatuses.unknown}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="notes" className="text-base">
-                Initial Notes
+                {t.addHive.initialNotes}
               </Label>
               <Textarea
                 id="notes"
-                placeholder="Add any observations or notes about this hive..."
+                placeholder={t.addHive.notesPlaceholder}
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 className="min-h-[120px] text-base resize-none"
@@ -131,7 +134,7 @@ const AddHive = () => {
               className="w-full h-14 text-base font-semibold"
             >
               <Plus className="h-5 w-5 mr-2" />
-              Add Hive
+              {t.addHive.addButton}
             </Button>
           </form>
         </CardContent>
@@ -140,8 +143,7 @@ const AddHive = () => {
       <Card className="shadow-card bg-secondary/50 border-primary/20">
         <CardContent className="pt-6">
           <p className="text-sm text-muted-foreground text-center">
-            <strong>Pro Tip:</strong> Regular inspections every 7-10 days help maintain healthy hives. 
-            Use the notes feature to track your observations!
+            <strong>{t.addHive.proTip}</strong> {t.addHive.proTipText}
           </p>
         </CardContent>
       </Card>

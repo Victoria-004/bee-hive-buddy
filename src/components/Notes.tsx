@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Plus, Calendar, Hexagon } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Note {
   id: string;
@@ -39,23 +40,26 @@ const mockNotes: Note[] = [
   },
 ];
 
+
 const Notes = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="space-y-6 animate-slide-up pb-24 md:pb-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Observation Notes</h1>
-          <p className="text-muted-foreground">Track your hive inspections and observations</p>
+          <h1 className="text-3xl font-bold mb-2">{t.notes.title}</h1>
+          <p className="text-muted-foreground">{t.notes.subtitle}</p>
         </div>
         <Button size="lg" className="h-12 hidden md:flex">
           <Plus className="h-5 w-5 mr-2" />
-          Add Note
+          {t.notes.addNote}
         </Button>
       </div>
 
       <Button size="lg" className="w-full h-14 md:hidden">
         <Plus className="h-5 w-5 mr-2" />
-        Add New Note
+        {t.notes.addNewNote}
       </Button>
 
       <div className="space-y-4">
@@ -100,13 +104,13 @@ const Notes = () => {
         <Card className="shadow-card">
           <CardContent className="flex flex-col items-center justify-center py-16 text-center">
             <BookOpen className="h-16 w-16 text-muted-foreground mb-4 opacity-50" />
-            <h3 className="text-xl font-semibold mb-2">No notes yet</h3>
+            <h3 className="text-xl font-semibold mb-2">{t.notes.noNotes}</h3>
             <p className="text-muted-foreground mb-6 max-w-sm">
-              Start documenting your hive observations and inspections to track their progress
+              {t.notes.noNotesDescription}
             </p>
             <Button size="lg">
               <Plus className="h-5 w-5 mr-2" />
-              Add Your First Note
+              {t.notes.addFirstNote}
             </Button>
           </CardContent>
         </Card>
